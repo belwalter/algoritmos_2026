@@ -23,6 +23,7 @@ def factorial(num: int) -> int:
 # print(factorial(5))
 # print(factorial_r(5))
 
+# fib(N) = fib(N-1) + fib(N-2) -> fib 0=0, fib 1=1 
 
 # fibonacci 
 def fibonacci_r(num: int) -> int:
@@ -41,5 +42,41 @@ def fibonacci(num):
     
     return fib_aux
 
-print(fibonacci(150))
+# print(fibonacci(150))
 # print(fibonacci_r(50))
+
+
+#  5 + 4 + 3 + 2 + 1 + 0 = 15
+# sum(n) = n + sum(n-1)          ->   sum(0) = 0
+
+def suma(num: int) -> int:
+    if num == 0:
+        return num
+    else:
+        return num + suma(num-1)
+    
+# print(suma(5))
+
+
+
+# 2 * 3 = 2 + 2 + 2 = 6
+# prod(n, m) = n + prod(n, m-1)    -> n, m = 0 -> 0
+
+
+def prod(n: int, m: int) -> int:
+    if m==0:
+        return 0
+    else:
+        return n + prod(n, m-1)
+
+# print(prod(0, 3))
+
+# h(n) = 1/n + 1/n-1 + 1/n-2 .... n = 1 -> 1
+
+def serie_h(num: int) -> float:
+    if num == 1:
+        return num
+    else:
+        return 1/num + serie_h(num-1)
+
+print(serie_h(4))
