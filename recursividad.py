@@ -79,4 +79,32 @@ def serie_h(num: int) -> float:
     else:
         return 1/num + serie_h(num-1)
 
-print(serie_h(4))
+# print(serie_h(4))
+
+
+# 523 -> 52     5       -> n < 10 = 1
+        # +1      +1
+
+def count(num: int) -> int:
+    if num <= 10:
+        return 1
+    else:
+        return 1 + count(num // 10)
+
+# print(count(5))
+# print(count(52))
+# print(count(523))
+# print(count(5023))
+
+
+# invertir(hola) = a + invertir(hol) -> cadena = ''
+
+
+def invertir(cadena: str) -> str:
+    if cadena == '':
+        return cadena
+    else:
+        return cadena[-1] + invertir(cadena[:-1])
+
+
+print(invertir('hola'))
