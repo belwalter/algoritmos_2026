@@ -1,4 +1,4 @@
-
+from copy import copy, deepcopy
 from typing import Any
 
 
@@ -14,18 +14,27 @@ class Stack:
         return self.__elements.pop()
     
     def show(self):
-        print(self.__elements)
+        stack_aux = Stack()
+        stack_aux.__elements = copy(self.__elements)
 
+        while stack_aux.size() > 0: 
+            value = stack_aux.pop()
+            print(value)
+        
+        # stack_aux = Stack()
 
-pila = Stack()
-
-pila.push(1)
-pila.show()
-pila.push(2)
-pila.show()
-
-pila.push(3)
-pila.show()
-aux = pila.pop()
-pila.push(4)
-pila.show()
+        # while self.size() > 0: 
+        #     value = self.pop()
+        #     print(value)
+        #     stack_aux.push(value)
+        
+        # while stack_aux.size() > 0: 
+        #     value = stack_aux.pop()
+        #     self.push(value)
+        
+    def size(self) -> int:
+        return len(self.__elements)
+    
+    def on_top(self) -> Any:
+        if self.size() > 0:
+            return self.__elements[-1]
