@@ -13,7 +13,7 @@ class Stack:
     def pop(self) -> Any:
         return self.__elements.pop()
     
-    def show(self):
+    def show(self) -> None:
         stack_aux = Stack()
         stack_aux.__elements = copy(self.__elements)
 
