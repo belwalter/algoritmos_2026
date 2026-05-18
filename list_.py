@@ -1,38 +1,62 @@
-from typing import Any
+from typing import Any, Optional
 
 class List(list):
+
+    __CRITERION_FUNCTION = {}
     
+    def add_criterion(self, criterion_key: str, criterion_function) -> None:
+        self.__CRITERION_FUNCTION[criterion_key] = criterion_function
+
     def show(self) -> None:
         for element in self:
             print(element)
     
-    def search(self, search_value: Any):
-        
+    def search(self, search_value: Any, criterion: str = None) -> Optional[int]:
+        self.sort_by_criterion(key_criterion=criterion)
+        search_criterion = self.__CRITERION_FUNCTION.get(criterion)
+
         start = 0
         end = len(self) -1
         middle = (start + end) // 2
 
         while start <= end:
-            value = self[middle]
 
-            if value.nom == search_value:
+            if search_criterion is None and not isinstance(self[0], (bool, int, float, str)):
+                print('no se pudo determinar criterio de busqueda')
+                return None
+
+            value = search_criterion(self[middle]) if search_criterion else self[middle]
+
+            if value == search_value:
                 return middle
-            elif value.nom < search_value:
+            elif value < search_value:
                 start = middle + 1
             else:
                 end = middle -1
             
             middle = (start + end) // 2
+    
+    # insertar vamos a mantener el append o el insert puede definir un insert_value si lo desean
 
-l = List()
+    def delete_value(self, value, criterion=None) -> Optional[Any]:
+        index = self.search(value, criterion)
 
-# l.append(1)
-# l.append(3)
-# l.append(5)
-# l.append(7)
+        return self.pop(index) if index is not None else None
 
-# print(l.search(5))
-# print(l.search(17))
+    def sort_by_criterion(self, key_criterion=None) -> None:
+
+        sort_criterion = self.__CRITERION_FUNCTION.get(key_criterion)
+
+        if sort_criterion:
+            self.sort(key=sort_criterion)
+        elif self and isinstance(self[0], (bool, int, float, str)):
+            self.sort()
+        else:
+            print('no se puede ordenar la lista no se como se debe ordenar')
+
+    def size(self) -> int:
+        return len(self)
+
 
 
 class Persona:
@@ -46,22 +70,25 @@ class Persona:
         return f"{self.ape} {self.nom} {self.edad}"
 
 
-l.append(Persona("Ana", "Blanc", 42))
-l.append(Persona("Dario", "Aron", 12))
+def by_name(item):
+    return item.nom
+
+def by_last_name(item):
+    return item.ape
+
+def by_age(item):
+    return item.edad
+
+
+l = List()
+l.add_criterion('name', by_name)
+l.add_criterion('last_name', by_last_name)
+l.add_criterion('age', by_age)
+
+
 l.append(Persona("Juan", "Perez", 24))
+l.append(Persona("Dario", "Aron", 12))
+l.append(Persona("Ana", "Blanc", 20))
 
-# def by_name(item):
-#     return item.nom
-
-# def by_last_name(item):
-#     return item.ape
-
-# def by_age(item):
-#     return item.edad
-
-
-# l.sort(key=by_age)
-
-print(l.search("Dario"))
-
+print(f'dato eliminado: {l.delete_value("Blanc", "last_name")}')
 l.show()
