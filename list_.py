@@ -57,38 +57,46 @@ class List(list):
     def size(self) -> int:
         return len(self)
 
+    def filter_contain_on_bio(self, values):
+        for element in self:
+            if any(value in element.bio.lower() for value in values):
+                print(element)
+
+    def filter_start_with(self, values):
+        for element in self:
+            if element.name.startswith(values):
+                print(element)
+
+# class Persona:
+
+#     def __init__(self, nom, ape, edad):
+#         self.nom = nom
+#         self.ape = ape
+#         self.edad = edad
+
+#     def __str__(self):
+#         return f"{self.ape} {self.nom} {self.edad}"
 
 
-class Persona:
+# def by_name(item):
+#     return item.nom
 
-    def __init__(self, nom, ape, edad):
-        self.nom = nom
-        self.ape = ape
-        self.edad = edad
+# def by_last_name(item):
+#     return item.ape
 
-    def __str__(self):
-        return f"{self.ape} {self.nom} {self.edad}"
-
-
-def by_name(item):
-    return item.nom
-
-def by_last_name(item):
-    return item.ape
-
-def by_age(item):
-    return item.edad
+# def by_age(item):
+#     return item.edad
 
 
-l = List()
-l.add_criterion('name', by_name)
-l.add_criterion('last_name', by_last_name)
-l.add_criterion('age', by_age)
+# l = List()
+# l.add_criterion('name', by_name)
+# l.add_criterion('last_name', by_last_name)
+# l.add_criterion('age', by_age)
 
 
-l.append(Persona("Juan", "Perez", 24))
-l.append(Persona("Dario", "Aron", 12))
-l.append(Persona("Ana", "Blanc", 20))
+# l.append(Persona("Juan", "Perez", 24))
+# l.append(Persona("Dario", "Aron", 12))
+# l.append(Persona("Ana", "Blanc", 20))
 
-print(f'dato eliminado: {l.delete_value("Blanc", "last_name")}')
-l.show()
+# print(f'dato eliminado: {l.delete_value("Blanc", "last_name")}')
+# l.show()
