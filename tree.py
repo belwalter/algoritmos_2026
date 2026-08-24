@@ -3,10 +3,11 @@ from typing import Any, Optional
 
 class Node():
 
-    def __init__(self, value=None):
+    def __init__(self, value=None, other_values=None):
         self.value = value
         self.left = None
         self.right = None
+        self.other_values = other_values
 
 
 class BinaryTree():
@@ -14,22 +15,22 @@ class BinaryTree():
     def __init__(self):
         self.root = None
 
-    def insert_node(self, value: Any) -> None:
+    def insert_node(self, value: Any, other_value: None) -> None:
 
-        def __insert_node(root, value):
+        def __insert_node(root, value, other_value=None):
             if root is None:
                 # print(f'lugar vacio insertar {value}')
-                root = Node(value)
+                root = Node(value, other_value)
             elif value < root.value:
                 # print(f'ir a la izquierda de {root.value}')
-                root.left = __insert_node(root.left, value)
+                root.left = __insert_node(root.left, value, other_value)
             else:
                 # print(f'ir a la derecha de {root.value}')
-                root.right = __insert_node(root.right, value)
+                root.right = __insert_node(root.right, value, other_value)
             
             return root
             
-        self.root = __insert_node(self.root, value)
+        self.root = __insert_node(self.root, value, other_value)
 
     def delete_node(self, value: Any) -> Optional[Any]:
         def __replace(root):
@@ -79,6 +80,25 @@ class BinaryTree():
 
         return x
 
+    def search(self, value) -> Optional[Any]:
+        def __search(root, value):
+            aux = None
+            if root is not None:
+            
+                if root.value == value:
+                    aux = root
+                elif value < root.value:
+                    aux = __search(root.left, value)
+                elif value > root.value:
+                    aux = __search(root.right, value)
+
+            return aux
+
+
+        node = __search(self.root, value)
+        
+        return node 
+
     def inorden(self) -> None:
         
         def __inorden(root):
@@ -104,24 +124,72 @@ class BinaryTree():
 
         __postorden(self.root)
 
+    def preorden(self) -> None:
+        def __preorden(root):
+            print(root.value)
+            if root.left is not None:
+                __preorden(root.left)
+            if root.right is not None:
+                __preorden(root.right)
+
+        __preorden(self.root)
+
+
+
+class Persona:
+
+    def __init__(self, nom, ape, dni):
+        self.nom = nom
+        self.ape = ape
+        self.dni = dni
+
+    def __str__(self):
+        return f"{self.ape} {self.nom} {self.dni}"
 
 arbol = BinaryTree()
+arbol_ape = BinaryTree()
 
-arbol.insert_node('F')
-arbol.insert_node('B')
-arbol.insert_node('K')
-arbol.insert_node('E')
-arbol.insert_node('H')
-arbol.insert_node('R')
-arbol.insert_node('G')
+p1 = Persona('Pepito', 'Gonzalez', 23)
+p2 = Persona('Pepito', 'Perez', 24)
+p3 = Persona('Pepito', 'Garcia', 25)
+p4 = Persona('Pepito', 'Casanova', 26)
+
+arbol.insert_node(p1.dni, p1)
+arbol.insert_node(p2.dni, p2)
+arbol.insert_node(p3.dni, p3)
+arbol.insert_node(p4.dni, p4)
+
+arbol_ape.insert_node(p1.ape, p1)
+arbol_ape.insert_node(p2.ape, p2)
+arbol_ape.insert_node(p3.ape, p3)
+arbol_ape.insert_node(p4.ape, p4)
+# arbol.insert_node('F')
+# arbol.insert_node('B')
+# arbol.insert_node('K')
+# arbol.insert_node('E')
+# arbol.insert_node('H')
+# arbol.insert_node('R')
+# arbol.insert_node('G')
 
 
 
 # print(arbol.root.right.left.value)
 
-arbol.inorden()
+# arbol.inorden()
 
-print()
-print('eliminar', arbol.delete_node('F'))
-print()
-arbol.inorden()
+# print()
+# print('eliminar', arbol.delete_node('F'))
+# print()
+# arbol.inorden()
+
+aux = arbol.search(26)
+if aux is not None:
+    print(f'valor encontrado {aux.other_values}')
+else:
+    print('no encontrado')
+
+aux = arbol_ape.search('Gonzalez')
+if aux is not None:
+    print(f'valor encontrado {aux.other_values}')
+else:
+    print('no encontrado')
